@@ -10,6 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import com.medistock.pharma.sales.dto.WeeklySalesReportResponse;
+
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class SalesService {
@@ -49,5 +57,36 @@ public class SalesService {
                 .build();
 
         return saleRepository.save(sale);
+    }
+
+    public List<WeeklySalesReportResponse> getWeeklyHighSalesReport() {
+
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(7);
+
+        List<Sale> weeklySales =
+                saleRepository.findBySoldAtAfter(oneWeekAgo);
+
+        Map<String, Integer> salesMap =
+                weeklySales.stream()
+                        .collect(Collectors.groupingBy(
+                                Sale::getMedicineName,
+                                Collectors.summingInt(Sale::getQuantitySold)
+                        ));
+
+        return salesMap.entrySet()
+                .stream()
+                .map(entry ->
+                        WeeklySalesReportResponse.builder()
+                                .medicineName(entry.getKey())
+                                .totalQuantitySold(entry.getValue())
+                                .build()
+                )
+                .sorted(
+                        Comparator.comparing(
+                                        WeeklySalesReportResponse::getTotalQuantitySold
+                                )
+                                .reversed()
+                )
+                .toList();
     }
 }
