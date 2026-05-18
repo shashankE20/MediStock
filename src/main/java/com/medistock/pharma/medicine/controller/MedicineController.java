@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/medicines")
 @RequiredArgsConstructor
 @CrossOrigin("*")
-public class MedicineController {
+public class MedicineController   {
 
     private final MedicineService medicineService;
 
