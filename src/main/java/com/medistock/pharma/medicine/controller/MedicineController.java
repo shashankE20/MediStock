@@ -38,7 +38,7 @@ public class MedicineController   {
     public Medicine updateMedicine(
             @PathVariable String id,
             @RequestBody MedicineRequest request
-    ) {
+    )  {
 
         return medicineService.updateMedicine(id, request);
     }
