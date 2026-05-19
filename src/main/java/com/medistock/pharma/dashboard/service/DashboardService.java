@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DashboardService {
+public class DashboardService   {
 
     private final MedicineRepository medicineRepository;
     private final SaleRepository saleRepository;
