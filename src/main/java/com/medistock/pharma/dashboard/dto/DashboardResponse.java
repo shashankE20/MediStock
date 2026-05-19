@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class DashboardResponse {
+public class DashboardResponse  {
 
     private long totalMedicines;
 
